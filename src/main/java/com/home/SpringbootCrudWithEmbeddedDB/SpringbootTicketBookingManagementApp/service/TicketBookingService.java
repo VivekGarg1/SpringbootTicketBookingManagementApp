@@ -59,4 +59,8 @@ public class TicketBookingService {
     public List<Ticket> findByDestOrSourceStation(String destStation, String srcStation) {
         return ticketBookingDao.findByDestOrSourceStation(destStation,srcStation);
     }
+
+    public void updateEmailById(int id, String newEmail) {
+        ticketBookingDao.updateEmailById(id,newEmail);
+    }
 }

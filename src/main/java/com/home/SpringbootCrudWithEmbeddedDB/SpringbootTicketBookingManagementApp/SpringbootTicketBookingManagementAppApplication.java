@@ -34,6 +34,13 @@ public class SpringbootTicketBookingManagementAppApplication implements CommandL
 		getTicketByDestStationInfo();
 		getTicketByEmail();
 		getTicketByDestOrSrcStation();
+		updateEmailById();
+	}
+
+	private void updateEmailById() {
+		int id=3;
+		String newEmail="shivam.arora@hays.com";
+		ticketBookingService.updateEmailById(id,newEmail);
 	}
 
 	private void getTicketByDestOrSrcStation() {
