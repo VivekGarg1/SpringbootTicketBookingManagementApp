@@ -1,17 +1,22 @@
 package com.home.SpringbootCrudWithEmbeddedDB.SpringbootTicketBookingManagementApp;
 
 
+import com.home.SpringbootCrudWithEmbeddedDB.SpringbootTicketBookingManagementApp.config.EnvBasedConfig;
 import com.home.SpringbootCrudWithEmbeddedDB.SpringbootTicketBookingManagementApp.model.Ticket;
 import com.home.SpringbootCrudWithEmbeddedDB.SpringbootTicketBookingManagementApp.service.TicketBookingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,28 +27,44 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 @RestController
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.home.SpringbootCrudWithEmbeddedDB.*")
 @EnableAsync
-public class SpringbootTicketBookingManagementAppApplication implements CommandLineRunner {
+public class SpringbootTicketBookingManagementAppApplication implements CommandLineRunner/*, ErrorController*/ {
 
 	private static final Logger logger= LoggerFactory.getLogger(SpringbootTicketBookingManagementAppApplication.class);
+	//private static final String path="/error";
 
 	@Autowired
 	private TicketBookingService ticketBookingService;
 
+	@Autowired
+	private EnvBasedConfig envBasedConfig;
+
+	@Value("${welcome.message}")
+	private String message;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootTicketBookingManagementAppApplication.class, args);
-		logger.error("Message lohgged at error level");
-		logger.warn("Message lohgged at warn level");
-		logger.info("Message lohgged at info level");
-		logger.debug("Message lohgged at debug level");
+		logger.error("Message logged at error level");
+		logger.warn("Message logged at warn level");
+		logger.info("Message logged at info level");
+		logger.debug("Message logged at debug level");
 	}
 
 	@RequestMapping("/")
 	public String welcome(){
-		logger.info("Message lohgged at info level");
-		return "Hello World!!!";
-		}
+		return message;
+	}
+
+	/*@GetMapping(value = path)
+	public String defaultError(){
+		return "Requested resource is not found!!!";
+	}
+
+	@Override
+	public String getErrorPath() {
+		return path;
+	}*/
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -51,6 +72,7 @@ public class SpringbootTicketBookingManagementAppApplication implements CommandL
 		getTicketByEmail();
 		getTicketByDestOrSrcStation();
 		updateEmailById();
+		envBasedConfig.setUp();
 	}
 
 	private void updateEmailById() {
@@ -74,6 +96,5 @@ public class SpringbootTicketBookingManagementAppApplication implements CommandL
 		Ticket ticket=ticketCompletableFuture.get(20, TimeUnit.SECONDS);
 		System.out.println(ticket);
 	}
-
 
 }
