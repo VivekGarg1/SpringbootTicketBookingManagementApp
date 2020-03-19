@@ -58,7 +58,7 @@ public class SpringbootTicketBookingManagementAppApplication implements CommandL
 
 	@RequestMapping("/")
 	public String welcome(){
-		return  message;
+		return message;
 	}
 
 	/*@GetMapping(value = path)

@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="employeeXMLBasedService" class="com.home.SpringbootCrudWithEmbeddedDB.SpringbootEmployeeManagementApp.service.EmployeeXMLBasedService">
-        <property name="name" value ="Hello Vivek Garg"></property>
+        <property name="name" value= "Hello Vivek Garg"></property>
     </bean>
 
 </beans>
