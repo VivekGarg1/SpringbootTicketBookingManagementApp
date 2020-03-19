@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +32,7 @@ import java.util.concurrent.TimeoutException;
 @RestController
 @SpringBootApplication(scanBasePackages = "com.home.SpringbootCrudWithEmbeddedDB.*")
 @EnableAsync
+@ImportResource("classpath:Beans.xml")
 public class SpringbootTicketBookingManagementAppApplication implements CommandLineRunner/*, ErrorController*/ {
 
 	private static final Logger logger= LoggerFactory.getLogger(SpringbootTicketBookingManagementAppApplication.class);
@@ -45,10 +49,11 @@ public class SpringbootTicketBookingManagementAppApplication implements CommandL
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootTicketBookingManagementAppApplication.class, args);
-		logger.error("Message logged at error level");
-		logger.warn("Message logged at warn level");
-		logger.info("Message logged at info level");
-		logger.debug("Message logged at debug level");
+		/*SpringApplication application=new SpringApplication(SpringbootTicketBookingManagementAppApplication.class);
+		Map<String,Object> configMap=new HashMap<>();
+			configMap.put("SERVER_PORT",8081);
+			application.setDefaultProperties(configMap);
+		    application.run(args);*/
 	}
 
 	@RequestMapping("/")
